@@ -13,7 +13,7 @@
 #define GPIO_ADDRESS 0x00A0000000
 #define LEN 5565
 #define MINOR_BASE 0
-#define DEVICENAME "LEDDriver"
+#define DEVICENAME "LED"
 volatile unsigned char* gpio; // AXI GPIO Base Address
 static dev_t my_dev; // major # && minor #
 static struct class *my_class;
@@ -27,9 +27,12 @@ static int led_driver_open(struct inode* inode, struct file* file){
 }
 static ssize_t led_driver_write(struct file* file, const char __user* buf, size_t count, loff_t* ppos){
     int val;
-    printk("write value: \n");
     get_user(val, (int *)buf);
     *gpio = val;
+    return 0;
+}
+static ssize_t led_driver_read(struct file* file, char __user* buf, size_t count, loff_t* ppos){
+    copy_to_user(buf,gpio,1);
     return 0;
 }
 static int led_driver_release(struct inode *inode, struct file *file){
@@ -40,6 +43,7 @@ static struct file_operations led_driver_fops = {
     .owner = THIS_MODULE,
     .open = led_driver_open,
     .write = led_driver_write,
+    .read = led_driver_read,
     .release = led_driver_release,
 };
 
@@ -50,7 +54,7 @@ static int led_driver_init(void)
     //cdev_add(&my_cdev,my_dev,1);
     register_chrdev(345,DEVICENAME,&led_driver_fops);
     //my_class = class_create(THIS_MODULE,DEVICENAME);
-    device_create(my_class,NULL,my_dev,NULL,DEVICENAME);
+    //device_create(my_class,NULL,my_dev,NULL,DEVICENAME);
     //gpio = (char *)ioremap(GPIO_ADDRESS,LEN);
     return 0;
 }

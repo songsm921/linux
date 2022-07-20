@@ -9,8 +9,12 @@ int main(int argc, char* argv[])
 {
     int fd;
     int val;
+    int menu;
+    char read_result;
+    char status[8];
+    int i;
     
-    fd = open("/dev/LEDDriver", O_RDWR);
+    fd = open("/dev/LED", O_RDWR);
     if(fd < 0)
     {
         printf("Unable to open file\n");
@@ -18,21 +22,45 @@ int main(int argc, char* argv[])
         
         return 0;
     }
-    
-    if(argc != 2)
-    {
-        printf("Only 1 parameter can inputted\n");
-        printf("You input %d parameters\n", argc-1);
-        
-        return 0;
+    while(menu != 3){
+        printf("-----------------------------------\n");
+        printf("\t\t menu \t\t \n");
+        printf("-----------------------------------\n");
+        printf("Select your op by choosing number : \n");
+        printf("1. Read current LED status\n");
+        printf("2. Assign LED value in decimal\n");
+        printf("3. Terminate \n");
+        printf("Enter your op: ");
+        scanf("%d",&menu);
+        switch(menu){
+            case 1: 
+                read(fd,&read_result,sizeof(char));
+                int res = (int)read_result;
+        if(!res){
+            printf("Current LED is OFF\n");
+        }
+        else{
+            for(i = 7; i>=0;i--){
+                if(res%2)
+                    status[i] = 'O';
+                else
+                    status[i] = 'X';
+                res = res / 2;
+            }
+            for(i = 0 ; i<8;i++)
+                printf("%c",status[i]);
+            printf(" Current LED is ON\n");
+            }
+            break;
+            case 2:
+                printf("input number : ");
+                scanf("%d",&val);
+                write(fd, &val, sizeof(int));
+                break;
+            default:
+                break;
+            }
     }
-    
-    val = atoi(argv[1]);
-    
-    printf("input number : %d\n", val);
-    
-    write(fd, &val, sizeof(int));
-    
     close(fd);
     
     return 0;
