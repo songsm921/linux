@@ -1,0 +1,1 @@
+cmd_/home/sumin/바탕화면/driver/LED/led_driver.ko := ld -r  -m elf_x86_64  --build-id=sha1  -T scripts/module.lds -o /home/sumin/바탕화면/driver/LED/led_driver.ko /home/sumin/바탕화면/driver/LED/led_driver.o /home/sumin/바탕화면/driver/LED/led_driver.mod.o;  true

@@ -1,0 +1,1 @@
+cmd_/home/sumin/바탕화면/driver/LED/Module.symvers := sed 's/\.ko$$/\.o/' /home/sumin/바탕화면/driver/LED/modules.order | scripts/mod/modpost -m -a  -o /home/sumin/바탕화면/driver/LED/Module.symvers -e -i Module.symvers   -T -
