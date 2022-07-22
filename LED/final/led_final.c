@@ -32,7 +32,7 @@ static int led_driver_open(struct inode* inode, struct file* file){
 }
 static ssize_t led_driver_write(struct file* file, const char __user* buf, size_t count, loff_t* ppos){
     int val;
-    if(get_user(val, (int *)buf) != 0){
+    if(get_user(val, buf) != 0){
         printk(KERN_ALERT "[%s] get_user FAILED!\n",__func__);
         return 101;
     }
@@ -41,7 +41,7 @@ static ssize_t led_driver_write(struct file* file, const char __user* buf, size_
     return 0;
 }
 static ssize_t led_driver_read(struct file* file, char __user* buf, size_t count, loff_t* ppos){
-    if(copy_to_user(buf,gpio,1)!=0){
+    if(copy_to_user(buf,gpio,sizeof(unsigned char))!=0){
         printk(KERN_ALERT "[%s] copy_to_user is FAILED! \n",__func__);
         return 102;
     }
