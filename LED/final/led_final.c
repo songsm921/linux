@@ -11,7 +11,7 @@
 #include <linux/fs.h>
 
 #define GPIO_ADDRESS 0x00A0000000
-#define LEN 5565
+#define LEN 1
 #define MINOR_BASE 0
 #define DEVICENAME "LED"
 volatile unsigned char* gpio; // AXI GPIO Base Address
@@ -21,13 +21,7 @@ static struct cdev my_cdev;
 
 
 static int led_driver_open(struct inode* inode, struct file* file){
-    gpio = (unsigned char *)ioremap(GPIO_ADDRESS,LEN);
-    if(gpio == NULL)
-    {
-        printk(KERN_ALERT "[%s] ioreamp FAILED!\n",__func__);
-        return 100;
-    }
-    printk(KERN_INFO "[%s] GPIO %x. \n",__func__,(unsigned int)gpio);
+    printk(KERN_INFO "Dev file opened \n");
     return 0;
 }
 static ssize_t led_driver_write(struct file* file, const char __user* buf, size_t count, loff_t* ppos){
@@ -48,7 +42,7 @@ static ssize_t led_driver_read(struct file* file, char __user* buf, size_t count
     return 0;
 }
 static int led_driver_release(struct inode *inode, struct file *file){
-    iounmap(gpio);
+    printk(KERN_INFO "Dev file closed \n");
     return 0;
 }
 static struct file_operations led_driver_fops = {
@@ -85,7 +79,13 @@ static int led_driver_init(void)
         printk(KERN_ALERT "[%s] device_create FAILED \n",__func__);
         return 105;
     }
-    //gpio = (char *)ioremap(GPIO_ADDRESS,LEN);
+    gpio = (unsigned char *)ioremap(GPIO_ADDRESS,LEN);
+    if(gpio == NULL)
+    {
+        printk(KERN_ALERT "[%s] ioreamp FAILED!\n",__func__);
+        return 100;
+    }
+    printk(KERN_INFO "[%s] GPIO %x. \n",__func__,(unsigned int)gpio);
     printk(KERN_INFO "Driver register finished succssfully \n");
     return 0;
 }
@@ -95,7 +95,7 @@ static void led_driver_exit(void){
     class_destroy(my_class);
     cdev_del(&my_cdev);
     unregister_chrdev_region(my_dev,1);
-    //iounmap(gpio);
+    iounmap(gpio);
     printk(KERN_INFO "LED module out\n");
 }
 module_init(led_driver_init);
