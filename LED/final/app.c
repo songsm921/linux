@@ -60,7 +60,11 @@ int main(int argc, char* argv[])
             case 2:
                 printf("input number : ");
                 scanf("%d",&val);
-                write(fd, &val, sizeof(char));
+                if(write(fd, &val, sizeof(char)) == -1)
+                {
+                    printf("Write size does not match with your intended! \n");
+                    return -2;
+                }
                 break;
             default:
                 break;
