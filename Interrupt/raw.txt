@@ -1,0 +1,169 @@
+            |      /* sched_switch: prev_comm=kpktgend_3 prev_pid=311 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.870 us    |        __get_cpu_fpsimd_context();
+ 3)   0.840 us    |        fpsimd_save();
+ 3)   0.840 us    |        __put_cpu_fpsimd_context();
+ 3)   6.150 us    |      }
+ 3)   0.861 us    |      hw_breakpoint_thread_switch();
+ 3)   0.830 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)  kpktgen-311   =>    <idle>-0   
+ ------------------------------------------
+
+ 3)   1.450 us    |      finish_task_switch();
+
+ ------------------1st
+
+  3)               |      /* sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kpktgend_3 next_pid=311 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.840 us    |        __get_cpu_fpsimd_context();
+ 3)   0.860 us    |        fpsimd_save();
+ 3)   0.830 us    |        __put_cpu_fpsimd_context();
+ 3)   6.161 us    |      }
+ 3)   0.930 us    |      hw_breakpoint_thread_switch();
+ 3)   0.840 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)    <idle>-0    =>  kpktgen-311  
+ ------------------------------------------
+
+ 3)   1.500 us    |      finish_task_switch();
+
+ 2nd------------------------------------------------
+
+ 
+ |      /* sched_switch: prev_comm=kpktgend_3 prev_pid=311 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   1.310 us    |        __get_cpu_fpsimd_context();
+ 3)   0.900 us    |        fpsimd_save();
+ 3)   0.860 us    |        __put_cpu_fpsimd_context();
+ 3)   6.450 us    |      }
+ 3)   0.911 us    |      hw_breakpoint_thread_switch();
+ 3)   0.850 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)  kpktgen-311   =>    <idle>-0   
+ ------------------------------------------
+
+ 3)   1.440 us    |      finish_task_switch();
+
+ ---3rd-------
+
+  3)               |      /* sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kpktgend_3 next_pid=311 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.840 us    |        __get_cpu_fpsimd_context();
+ 3)   0.840 us    |        fpsimd_save();
+ 3)   0.890 us    |        __put_cpu_fpsimd_context();
+ 3)   6.180 us    |      }
+ 3)   0.880 us    |      hw_breakpoint_thread_switch();
+ 3)   0.920 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)    <idle>-0    =>  kpktgen-311  
+ ------------------------------------------
+
+ 3)   1.490 us    |      finish_task_switch();
+
+
+ -4th--------------
+
+  3)               |      /* sched_switch: prev_comm=kpktgend_3 prev_pid=311 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.880 us    |        __get_cpu_fpsimd_context();
+ 3)   0.840 us    |        fpsimd_save();
+ 3)   0.850 us    |        __put_cpu_fpsimd_context();
+ 3)   6.090 us    |      }
+ 3)   0.851 us    |      hw_breakpoint_thread_switch();
+ 3)   0.830 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)  kpktgen-311   =>    <idle>-0   
+ ------------------------------------------
+
+ 3)   1.410 us    |      finish_task_switch();
+
+ ----------5th
+
+
+
+  3)               |      /* sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kworker/3:1 next_pid=31 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.830 us    |        __get_cpu_fpsimd_context();
+ 3)   0.850 us    |        fpsimd_save();
+ 3)   0.920 us    |        __put_cpu_fpsimd_context();
+ 3)   6.481 us    |      }
+ 3)   0.890 us    |      hw_breakpoint_thread_switch();
+ 3)   0.920 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)    <idle>-0    =>   kworker-31  
+ ------------------------------------------
+
+ 3)   1.641 us    |    finish_task_switch();
+
+
+ ----- 6th --------
+ 3)               |  /* sched_switch: prev_comm=kworker/3:1 prev_pid=31 prev_prio=120 prev_state=I ==> next_comm=kpktgend_3 next_pid=311 next_prio=120 */
+ 3)               |    fpsimd_thread_switch() {
+ 3)   0.870 us    |      __get_cpu_fpsimd_context();
+ 3)   0.840 us    |      fpsimd_save();
+ 3)   0.840 us    |      __put_cpu_fpsimd_context();
+ 3)   6.171 us    |    }
+ 3)   0.840 us    |    hw_breakpoint_thread_switch();
+ 3)   0.840 us    |    uao_thread_switch();
+ ------------------------------------------
+ 3)   kworker-31   =>  kpktgen-311  
+ ------------------------------------------
+
+ 3)   1.420 us    |      finish_task_switch();
+
+
+ -----7th
+
+
+ 3)               |      /* sched_switch: prev_comm=kpktgend_3 prev_pid=311 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.900 us    |        __get_cpu_fpsimd_context();
+ 3)   0.920 us    |        fpsimd_save();
+ 3)   0.851 us    |        __put_cpu_fpsimd_context();
+ 3)   6.121 us    |      }
+ 3)   0.900 us    |      hw_breakpoint_thread_switch();
+ 3)   0.850 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)  kpktgen-311   =>    <idle>-0   
+ ------------------------------------------
+
+ 3)   1.430 us    |      finish_task_switch();
+
+
+
+ --8th ----
+
+ 3)               |      /* sched_switch: prev_comm=swapper/3 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=kpktgend_3 next_pid=311 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.850 us    |        __get_cpu_fpsimd_context();
+ 3)   0.850 us    |        fpsimd_save();
+ 3)   0.890 us    |        __put_cpu_fpsimd_context();
+ 3)   6.321 us    |      }
+ 3)   0.850 us    |      hw_breakpoint_thread_switch();
+ 3)   0.920 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)    <idle>-0    =>  kpktgen-311  
+ ------------------------------------------
+
+ 3)   1.491 us    |      finish_task_switch();
+
+
+ ----9th----
+ 3)               |      /* sched_switch: prev_comm=kpktgend_3 prev_pid=311 prev_prio=120 prev_state=S ==> next_comm=swapper/3 next_pid=0 next_prio=120 */
+ 3)               |      fpsimd_thread_switch() {
+ 3)   0.840 us    |        __get_cpu_fpsimd_context();
+ 3)   0.850 us    |        fpsimd_save();
+ 3)   0.840 us    |        __put_cpu_fpsimd_context();
+ 3)   6.070 us    |      }
+ 3)   0.850 us    |      hw_breakpoint_thread_switch();
+ 3)   0.840 us    |      uao_thread_switch();
+ ------------------------------------------
+ 3)  kpktgen-311   =>    <idle>-0   
+ ------------------------------------------
+
+ 3)   1.500 us    |      finish_task_switch();
+
+
+
+
