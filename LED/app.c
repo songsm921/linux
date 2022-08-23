@@ -9,11 +9,12 @@ int main(int argc, char* argv[])
 {
     int fd;
     int val;
-    int menu;
-    char read_result;
-    char status[8];
+    int menu = -1;
+    unsigned char read_result;
+    char status[9];
+    status[8] = '\0';
     int i;
-    
+    int tmp;
     fd = open("/dev/LED", O_RDWR);
     if(fd < 0)
     {
@@ -34,28 +35,36 @@ int main(int argc, char* argv[])
         scanf("%d",&menu);
         switch(menu){
             case 1: 
-                read(fd,&read_result,sizeof(char));
-                int res = (int)read_result;
-        if(!res){
+                if((tmp = read(fd,&read_result,sizeof(char)) ) == -1)
+                {
+                    printf("Read size does not match with intended size!\n ");
+                    printf("tmp = %d, read_result = %d",tmp,(int)read_result);
+                    return -1;
+                }
+                
+        if((int)read_result == 0){
             printf("Current LED is OFF\n");
         }
         else{
             for(i = 7; i>=0;i--){
-                if(res%2)
+                if((int)read_result%2)
                     status[i] = 'O';
                 else
                     status[i] = 'X';
-                res = res / 2;
+               read_result >>= 1;
             }
-            for(i = 0 ; i<8;i++)
-                printf("%c",status[i]);
+            printf("%s",status);
             printf(" Current LED is ON\n");
             }
             break;
             case 2:
                 printf("input number : ");
                 scanf("%d",&val);
-                write(fd, &val, sizeof(int));
+                if(write(fd, &val, sizeof(char)) == -1)
+                {
+                    printf("Write size does not match with your intended! \n");
+                    return -2;
+                }
                 break;
             default:
                 break;
